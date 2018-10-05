@@ -1,20 +1,43 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="page-margin">
+
+    <div class="logo-container">
+      <img width="300" src="../assets/img/guardian-logo.png">
+    </div>
+      
+    <div class="flex-center" style="margin-top:10px">
+      <div class="search-pagination-container">
+        <div class="search-container">
+          <p class="filter-articles">Filter Articles:</p>
+          <input type="text" class="form-control" [(ngModel)]="searchString" (keypress)="searchKeyPressed($event)" style="margin-right:8px">
+          <button class="btn btn-success" (click)="filterArticles()">Search</button>
+        </div>
+        <div class="pagination-container">
+          <p *ngIf="multiplePagesPagination()" class="pagination-text">{{ pageLowNum + 1 }} - {{ pageHighNum }} ({{ numArticles }} records)</p>
+          <p *ngIf="!multiplePagesPagination() && (numArticles > 0)" class="pagination-text">Displaying {{ numArticles }} record<span *ngIf="numArticles > 1">s</span></p>
+          <ngb-pagination *ngIf="response" [collectionSize]="numArticles" [maxSize]="5" [(page)]="page" [directionLinks]="false" aria-label="Default pagination" (pageChange)="onPageChanged($event)"></ngb-pagination>
+        </div>
+      </div>
+    </div>
+
+    <h2 *ngIf="!previousSearch" style="text-align:center">All Articles</h2>
+    <h2 *ngIf="previousSearch" style="text-align:center">"{{ previousSearch }}"</h2>
+
+    <div *ngIf="isLoading" id="loader"></div>
+        
+    <div *ngIf="!isLoading" class="flex-center">
+      <div *ngIf="response" class="articles">
+          <div *ngFor="let article of response.response.results">
+            <div class="view-btn-container">
+                <button class="btn btn-primary view-article-btn" (click)="viewArticle(article.webUrl)">View</button>
+                <label>{{ article.webTitle }}</label>
+            </div>
+          </div>
+        </div>
+    </div>
+      
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+
+
+
+
 
